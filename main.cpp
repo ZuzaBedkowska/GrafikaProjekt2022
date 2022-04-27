@@ -40,7 +40,11 @@ void makeCircle(int n, GLfloat vertices[], GLuint indices[], double x, double y,
 	}
 }
 
-
+void calculateCirclePosition(double & x, double & y, double r, double angle) //nowe wsp srodka okregu, odleglosc od 0.0, kat odchylenia od 0.0
+{
+	x = r * cos(angle);
+	y = r * sin(angle);
+}
 
 int main()
 {
@@ -93,12 +97,18 @@ int main()
 	//petla wyswietlajaca
 	GLfloat red = 0.0;
 	GLfloat blue = 255.0;
+	double angle1 = 2 * PI / 1000; //tutaj zamiast 1000 trzeba policzyc o jaki kat przesuwa sie kolko jesli damy sleep na 10
+	double angle2 = 0.0;
+	double x = 0.0;
+	double y = 0.0;
 	while (!glfwWindowShouldClose(window))
 	{
+		calculateCirclePosition(x, y, 0.5, angle2);
+		angle2 += angle1;
 		GLfloat vertices[3 * 3 * 100]{}; //100 trojkatow po 3 punkty po 3 wsp
 		// Indices for vertices order
 		GLuint indices[3 * 100]{};
-		makeCircle(n, vertices, indices, 0.5, 0.5, 0.05);
+		makeCircle(n, vertices, indices, x, y, 0.05);
 		GLuint VAO, VBO, EBO; //nowa wersja trojkata
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
@@ -127,6 +137,7 @@ int main()
 		glDeleteVertexArrays(1, &VAO);
 		glDeleteBuffers(1, &VBO);
 		glDeleteProgram(shaderProgram);
+		Sleep(10);
 	}
 	// Delete window before ending the program
 	glfwDestroyWindow(window);
