@@ -4,16 +4,17 @@
 #include<windows.h>
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
+#include <vector>
 
 using namespace std;
 
 constexpr auto PI = 3.14159265358979323846;
 
-void makeCircle(int n, GLfloat vertices[], GLuint indices[], double x, double y, double r) //ile trojatow na kolo, wierzcholki, polaczenia, wsp srodka i promien
+void makeCircle(int n, int p, GLfloat vertices[], GLuint indices[], double x, double y, double r) //ile trojatow na kolo, wierzcholki, polaczenia, wsp srodka i promien
 {
 	double angle = 2 * PI / n; //kat miedzy ramionami trojkata
 	double angle1 = 0.0;
-	for (int i = 0; i < 3 * 3 * n; ++i)
+	for (int i = p*3*3*n; i < (p+1) *3 * 3 * n; ++i)
 	{
 		vertices[i] = x; //pierwszy wierzcholek kazdego trojkata to srodek kola
 		i++;
@@ -34,7 +35,7 @@ void makeCircle(int n, GLfloat vertices[], GLuint indices[], double x, double y,
 		i++;
 		vertices[i] = 0.0;
 	}
-	for (int i = 0; i < 3 * n; ++i)
+	for (int i = p*3*n; i < (p + 1)*3 * n; ++i)
 	{
 		indices[i] = i; //pierwszy wierzcholek kazdego trojkata to srodek kola
 	}
@@ -49,6 +50,15 @@ void calculateCirclePosition(double & x, double & y, double r, double angle) //n
 int main()
 {
 	double n = 100; //ile trojatow tworzy kolo
+	vector <double> distances(9, 0.0);
+	for (int i = 0; i < 9; ++i)
+	{
+		distances[i] = i * 0.1;
+	}
+	vector <double> x = distances;
+	vector <double> y(9, 0.0);
+	vector <double> angle1(9, 0.0);
+	vector <double> angle2(9, 0.0);
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -97,19 +107,46 @@ int main()
 	//petla wyswietlajaca
 	GLfloat red = 0.0;
 	GLfloat blue = 255.0;
-	double angle1 = 2 * PI / 1000; //tutaj zamiast 1000 trzeba policzyc o jaki kat przesuwa sie kolko jesli damy sleep na 10
-	double angle2 = 0.0;
-	double x = 0.0;
-	double y = 0.0;
+	angle1[3] = 2 * PI / 1000; //obrot ziemi
+	angle1[1] = angle1[3] / 0.24; //proporcjonalne przeszktalcenie czasu obrotu ziemi w programie na czas obrotu merkurego
+	angle1[2] = angle1[3] / 0.615;
+	angle1[4] = angle1[3] / 1, 88;
+	angle1[5] = angle1[3] / 11, 86;
+	angle1[6] = angle1[3] / 29.5;
+	angle1[7] = angle1[3] / 84;
+	angle1[8] = angle1[3] / 164;
 	while (!glfwWindowShouldClose(window))
 	{
-		calculateCirclePosition(x, y, 0.5, angle2);
-		angle2 += angle1;
-		GLfloat vertices[3 * 3 * 100]{}; //100 trojkatow po 3 punkty po 3 wsp
+		
+		GLfloat vertices[9 * 3 * 3 * 100]{}; //100 trojkatow po 3 punkty po 3 wsp
 		// Indices for vertices order
-		GLuint indices[3 * 100]{};
-		makeCircle(n, vertices, indices, x, y, 0.05);
-		GLuint VAO, VBO, EBO; //nowa wersja trojkata
+		GLuint indices[9 * 3 * 100]{};
+		makeCircle(n, 0, vertices, indices, x[0], y[0], 0.08); //s
+		calculateCirclePosition(x[1], y[1], distances[1], angle2[1]);
+		angle2[1] += angle1[1];
+		makeCircle(n, 1, vertices, indices, x[1], y[1], 0.01); //m
+		calculateCirclePosition(x[2], y[2], distances[2], angle2[2]);
+		angle2[2] += angle1[2];
+		makeCircle(n, 2, vertices, indices, x[2], y[2], 0.025); //v
+		calculateCirclePosition(x[3], y[3], distances[3], angle2[3]);
+		angle2[3] += angle1[3];
+		makeCircle(n, 3, vertices, indices, x[3], y[3], 0.028); //e
+		calculateCirclePosition(x[4], y[4], distances[4], angle2[4]);
+		angle2[4] += angle1[4];
+		makeCircle(n, 4, vertices, indices, x[4], y[4], 0.015); //m
+		calculateCirclePosition(x[5], y[5], distances[5], angle2[5]);
+		angle2[5] += angle1[5];
+		makeCircle(n, 5, vertices, indices, x[5], y[5], 0.05); //j
+		calculateCirclePosition(x[6], y[6], distances[6], angle2[6]);
+		angle2[6] += angle1[6];
+		makeCircle(n, 6, vertices, indices, x[6], y[6], 0.035); //s
+		calculateCirclePosition(x[7], y[7], distances[7], angle2[7]);
+		angle2[7] += angle1[7];
+		makeCircle(n, 7, vertices, indices, x[7], y[7], 0.025); //u
+		calculateCirclePosition(x[8], y[8], distances[8], angle2[8]);
+		angle2[1] += angle1[1];
+		makeCircle(n, 8, vertices, indices, x[8], y[8], 0.025); //n
+		GLuint VAO, VBO, EBO;
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
 		glGenBuffers(1, &EBO);
@@ -127,7 +164,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 3 * n * n, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_INT, 0);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 		glDeleteVertexArrays(1, &VAO);
@@ -137,7 +174,7 @@ int main()
 		glDeleteVertexArrays(1, &VAO);
 		glDeleteBuffers(1, &VBO);
 		glDeleteProgram(shaderProgram);
-		Sleep(10);
+		Sleep(1);
 	}
 	// Delete window before ending the program
 	glfwDestroyWindow(window);
