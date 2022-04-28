@@ -1,9 +1,9 @@
-#include<iostream>
+#include <iostream>
 #include <cmath>
 #include <math.h>
-#include<windows.h>
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
+#include <windows.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <vector>
 
 using namespace std;
@@ -41,10 +41,10 @@ void makeCircle(int n, int p, GLfloat vertices[], GLuint indices[], double x, do
 	}
 }
 
-void calculateCirclePosition(double & x, double & y, double r, double angle) //nowe wsp srodka okregu, odleglosc od 0.0, kat odchylenia od 0.0
+void calculateCirclePosition(double & x, double & y, double x_s, double y_s, double r, double angle) //nowe wsp srodka okregu, wsp srodka orbity, odleglosc od 0.0, kat odchylenia od 0.0
 {
-	x = r * cos(angle);
-	y = r * sin(angle);
+	x = x_s + r * cos(angle);
+	y = y_s + r * sin(angle);
 }
 
 int main()
@@ -110,11 +110,12 @@ int main()
 	angle1[3] = 2 * PI / 1000; //obrot ziemi
 	angle1[1] = angle1[3] / 0.24; //proporcjonalne przeszktalcenie czasu obrotu ziemi w programie na czas obrotu merkurego
 	angle1[2] = angle1[3] / 0.615;
-	angle1[4] = angle1[3] / 1, 88;
-	angle1[5] = angle1[3] / 11, 86;
+	angle1[4] = angle1[3] / 1.88;
+	angle1[5] = angle1[3] / 11.86;
 	angle1[6] = angle1[3] / 29.5;
 	angle1[7] = angle1[3] / 84;
 	angle1[8] = angle1[3] / 164;
+	double x_s = 0.0, y_s = 0.0; //wspolrzedne srodka ukladu slonecznego
 	while (!glfwWindowShouldClose(window))
 	{
 		
@@ -122,29 +123,29 @@ int main()
 		// Indices for vertices order
 		GLuint indices[9 * 3 * 100]{};
 		makeCircle(n, 0, vertices, indices, x[0], y[0], 0.08); //s
-		calculateCirclePosition(x[1], y[1], distances[1], angle2[1]);
+		calculateCirclePosition(x[1], y[1], x_s, y_s, distances[1], angle2[1]);
 		angle2[1] += angle1[1];
 		makeCircle(n, 1, vertices, indices, x[1], y[1], 0.01); //m
-		calculateCirclePosition(x[2], y[2], distances[2], angle2[2]);
+		calculateCirclePosition(x[2], y[2], x_s, y_s, distances[2], angle2[2]);
 		angle2[2] += angle1[2];
 		makeCircle(n, 2, vertices, indices, x[2], y[2], 0.025); //v
-		calculateCirclePosition(x[3], y[3], distances[3], angle2[3]);
+		calculateCirclePosition(x[3], y[3], x_s, y_s, distances[3], angle2[3]);
 		angle2[3] += angle1[3];
 		makeCircle(n, 3, vertices, indices, x[3], y[3], 0.028); //e
-		calculateCirclePosition(x[4], y[4], distances[4], angle2[4]);
+		calculateCirclePosition(x[4], y[4], x_s, y_s, distances[4], angle2[4]);
 		angle2[4] += angle1[4];
 		makeCircle(n, 4, vertices, indices, x[4], y[4], 0.015); //m
-		calculateCirclePosition(x[5], y[5], distances[5], angle2[5]);
+		calculateCirclePosition(x[5], y[5], x_s, y_s, distances[5], angle2[5]);
 		angle2[5] += angle1[5];
 		makeCircle(n, 5, vertices, indices, x[5], y[5], 0.05); //j
-		calculateCirclePosition(x[6], y[6], distances[6], angle2[6]);
+		calculateCirclePosition(x[6], y[6], x_s, y_s, distances[6], angle2[6]);
 		angle2[6] += angle1[6];
-		makeCircle(n, 6, vertices, indices, x[6], y[6], 0.035); //s
-		calculateCirclePosition(x[7], y[7], distances[7], angle2[7]);
+		makeCircle(n, 6, vertices, indices,  x[6], y[6], 0.035); //s
+		calculateCirclePosition(x[7], y[7], x_s, y_s, distances[7], angle2[7]);
 		angle2[7] += angle1[7];
 		makeCircle(n, 7, vertices, indices, x[7], y[7], 0.025); //u
-		calculateCirclePosition(x[8], y[8], distances[8], angle2[8]);
-		angle2[1] += angle1[1];
+		calculateCirclePosition(x[8], y[8], x_s, y_s, distances[8], angle2[8]);
+		angle2[8] += angle1[8];
 		makeCircle(n, 8, vertices, indices, x[8], y[8], 0.025); //n
 		GLuint VAO, VBO, EBO;
 		glGenVertexArrays(1, &VAO);
