@@ -10,7 +10,7 @@ using namespace std;
 
 constexpr auto PI = 3.14159265358979323846;
 
-void makeCircle(int n, int p, GLfloat vertices[], GLuint indices[], double x, double y, double red, double blue, double green, double r) //ile trojatow na kolo, wierzcholki, polaczenia, wsp srodka i promien
+void makeCircle(int n, int p, GLfloat vertices[], GLuint indices[], double x, double y, double red, double green, double blue, double r) //ile trojatow na kolo, wierzcholki, polaczenia, wsp srodka i promien
 {
 	double angle = 2 * PI / n; //kat miedzy ramionami trojkata
 	double angle1 = 0.0;
@@ -22,9 +22,9 @@ void makeCircle(int n, int p, GLfloat vertices[], GLuint indices[], double x, do
 		i++;
 		vertices[i] = red;
 		i++;
-		vertices[i] = blue;
-		i++;
 		vertices[i] = green;
+		i++;
+		vertices[i] = blue;
 		i++;
 		vertices[i] = x + r * cos(angle1); //drugi wierzcholek z f trygonometrycznych
 		i++;
@@ -32,9 +32,9 @@ void makeCircle(int n, int p, GLfloat vertices[], GLuint indices[], double x, do
 		i++;
 		vertices[i] = red;
 		i++;
-		vertices[i] = blue;
-		i++;
 		vertices[i] = green;
+		i++;
+		vertices[i] = blue;
 		i++;
 		angle1 += angle;
 		vertices[i] = x + r * cos(angle1); //trzeci wierzcholek tak samo jak 2, ale przesuniety o kat
@@ -43,9 +43,9 @@ void makeCircle(int n, int p, GLfloat vertices[], GLuint indices[], double x, do
 		i++;
 		vertices[i] = red;
 		i++;
-		vertices[i] = blue;
-		i++;
 		vertices[i] = green;
+		i++;
+		vertices[i] = blue;
 	}
 	for (int i = p*3*n; i < (p + 1)*3 * n; ++i)
 	{
@@ -137,7 +137,7 @@ int main()
 		GLfloat vertices[9 * 3 * 5 * 50]{}; //100 trojkatow po 3 punkty po 3 wsp
 		// Indices for vertices order
 		GLuint indices[9 * 3 * 50]{};
-		makeCircle(n, 0, vertices, indices, x[0], y[0], 0.0, 1.0, 0.0, 0.08); //s, argumenty od y[0] do 0.08 to kolorki w formacie red, blue green
+		makeCircle(n, 0, vertices, indices, x[0], y[0], 0.0, 1.0, 0.0, 0.08); //s, argumenty od y[0] do 0.08 to kolorki w formacie red, green, blue
 		calculateCirclePosition(x[1], y[1], x_s, y_s, distances[1], angle2[1]);
 		angle2[1] += angle1[1];
 		makeCircle(n, 1, vertices, indices, x[1], y[1], 1.0, 0.0, 0.0, 0.01); //m
