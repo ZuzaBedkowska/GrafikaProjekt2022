@@ -137,31 +137,31 @@ int main()
 		GLfloat vertices[9 * 3 * 5 * 50]{}; //100 trojkatow po 3 punkty po 3 wsp
 		// Indices for vertices order
 		GLuint indices[9 * 3 * 50]{};
-		makeCircle(n, 0, vertices, indices, x[0], y[0], 0.0, 1.0, 0.0, 0.08); //s, argumenty od y[0] do 0.08 to kolorki w formacie red, green, blue
+		makeCircle(n, 0, vertices, indices, x[0], y[0], 1.0, 0.98, 0.2219, 0.08); //s, argumenty od y[0] do 0.08 to kolorki w formacie red, green, blue
 		calculateCirclePosition(x[1], y[1], x_s, y_s, distances[1], angle2[1]);
 		angle2[1] += angle1[1];
-		makeCircle(n, 1, vertices, indices, x[1], y[1], 1.0, 0.0, 0.0, 0.01); //m
+		makeCircle(n, 1, vertices, indices, x[1], y[1], 0.7412, 0.4314, 0.1176, 0.01); //m
 		calculateCirclePosition(x[2], y[2], x_s, y_s, distances[2], angle2[2]);
 		angle2[2] += angle1[2];
-		makeCircle(n, 2, vertices, indices, x[2], y[2], 0.0, 0.0, 1.0, 0.025); //v
+		makeCircle(n, 2, vertices, indices, x[2], y[2], 0.6235, 0.5412, 0.4196, 0.025); //v
 		calculateCirclePosition(x[3], y[3], x_s, y_s, distances[3], angle2[3]);
 		angle2[3] += angle1[3];
-		makeCircle(n, 3, vertices, indices, x[3], y[3], 0.0, 1.0, 0.0, 0.028); //e
+		makeCircle(n, 3, vertices, indices, x[3], y[3], 0.1451, 0.5725, 0.7725, 0.028); //e
 		calculateCirclePosition(x[4], y[4], x_s, y_s, distances[4], angle2[4]);
 		angle2[4] += angle1[4];
-		makeCircle(n, 4, vertices, indices, x[4], y[4], 0.0, 1.0, 0.0, 0.015); //m
+		makeCircle(n, 4, vertices, indices, x[4], y[4], 0.7569, 0.2392, 0.0588, 0.015); //m
 		calculateCirclePosition(x[5], y[5], x_s, y_s, distances[5], angle2[5]);
 		angle2[5] += angle1[5];
-		makeCircle(n, 5, vertices, indices, x[5], y[5], 0.0, 1.0, 0.0, 0.05); //j
+		makeCircle(n, 5, vertices, indices, x[5], y[5], 0.4941, 0.2863, 0.1176, 0.05); //j
 		calculateCirclePosition(x[6], y[6], x_s, y_s, distances[6], angle2[6]);
 		angle2[6] += angle1[6];
-		makeCircle(n, 6, vertices, indices,  x[6], y[6], 0.0, 1.0, 0.0, 0.035); //s
+		makeCircle(n, 6, vertices, indices,  x[6], y[6], 0.8509, 0.7333, 0.5608, 0.035); //s
 		calculateCirclePosition(x[7], y[7], x_s, y_s, distances[7], angle2[7]);
 		angle2[7] += angle1[7];
-		makeCircle(n, 7, vertices, indices, x[7], y[7], 0.0, 1.0, 0.0, 0.025); //u
+		makeCircle(n, 7, vertices, indices, x[7], y[7], 0.0353, 0.3216, 0.8706, 0.025); //u
 		calculateCirclePosition(x[8], y[8], x_s, y_s, distances[8], angle2[8]);
 		angle2[8] += angle1[8];
-		makeCircle(n, 8, vertices, indices, x[8], y[8], 0.0, 1.0, 0.0, 0.025); //n
+		makeCircle(n, 8, vertices, indices, x[8], y[8], 0.2706, 0.8941, 0.9922, 0.025); //n
 		GLuint VAO, VBO, EBO; //nowa wersja trojkata
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
